@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>JSP - Hello World</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles</title>
 </head>
 <body>
-<br/>
-<a href="hello-servlet">Pocetna strana</a>
-<br/>
-<a>Najcitanije</a>
-<br/>
-<a>Svaka stavka destinacije</a>
-<br/>
-<br/>
+<a>Articles list</a>
+<ul id="clanci"></ul>
 
-<a href="hello-servlet">Hello Servlet</a>
+<script>
+    fetch('http://localhost:3036/raf_vodic_schema')
+        .then(response => response.json())
+        .then(data => {
+            const articlesList = document.getElementById('/id');
+            data.forEach(article => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${article.naslov} - ${article.datumObjave}`;
+                articlesList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+</script>
 </body>
 </html>
