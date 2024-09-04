@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@Path("/korisnici")
+@Path("/entrance")
 public class LoginResource {
 
     //  Ovo injektuje neki servis (registracija/login)
