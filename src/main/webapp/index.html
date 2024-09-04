@@ -6,16 +6,20 @@
     <title>Articles</title>
 </head>
 <body>
-<a>Articles list</a>
+<a href="/artcles">Articles list</a>
 <ul id="clanci"></ul>
 
 <script>
     fetch('http://localhost:3036/raf_vodic_schema')
         .then(response => response.json())
         .then(data => {
-            const articlesList = document.getElementById('/id');
+            // const articlesList = document.getElementById('/id');
+            const articlesList = document.getElementById('h1');
             data.forEach(article => {
                 const listItem = document.createElement('li');
+                // listItem.textContent = `${article.naslov} - ${article.datumObjave}`;
+
+
                 listItem.textContent = `${article.naslov} - ${article.datumObjave}`;
                 articlesList.appendChild(listItem);
             });

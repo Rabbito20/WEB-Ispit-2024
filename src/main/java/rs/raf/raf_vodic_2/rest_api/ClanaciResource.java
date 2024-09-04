@@ -9,15 +9,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@Path("/articles")
+@Path("/a1")
 public class ClanaciResource {
 
-    private Connection connection = null;
     private ClanakDAO clanakDAO = null;
 
     public ClanaciResource() {
         try {
-            connection = DbHelper.getConnection();
+            Connection connection = DbHelper.getConnection();
             clanakDAO = new ClanakDAO(connection);
         } catch (SQLException e) {
             System.err.println("ClanciResource() -> Connection problem");

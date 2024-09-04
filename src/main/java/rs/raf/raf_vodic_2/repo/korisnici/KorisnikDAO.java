@@ -14,7 +14,7 @@ public class KorisnikDAO {
         this.connection = connection;
     }
 
-    public void createKorisnik(Korisnik korisnik) throws SQLException {
+    public boolean createKorisnik(Korisnik korisnik) throws SQLException {
         String sql =
                 "INSERT INTO korisnici (email, ime, prezime, tip_korisnika, status, password) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -25,6 +25,10 @@ public class KorisnikDAO {
             stmt.setBoolean(5, korisnik.isStatus());
             stmt.setString(6, korisnik.getPassword());
             stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

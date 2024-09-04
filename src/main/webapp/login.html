@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login i registracija</title>
+</head>
+<body>
+<h2>Registracija</h2>
+<form id="registracijaForm">
+    <label for="registracijaForm">EMAIL: </label><br>
+    <input type="text" id="regEmailInput" name="emailInputForma" required><br><br>
+
+    <label for="registracijaForm">Ime: </label><br>
+    <input type="text" id="regImeInput" name="imeInputForma" required><br><br>
+
+    <label for="registracijaForm">Prezime: </label><br>
+    <input type="text" id="regPrezimeInput" name="prezimeInputForma" required><br><br>
+
+    <!--PRIVREMENO-->
+    <!--<label for="registracijaForm">TIP KORISNIKA (*promeniti kasnije da se ne unosi ovako*): </label><br>-->
+    <input type="hidden" id="regTipInput" name="tipInputForma" value="USER">
+    <input type="hidden" id="regStatus" name="statusForma" value="1">
+
+    <label for="registracijaForm">Password: </label><br>
+    <input type="password" id="regPasswordInput" name="passwordInputForma" required><br>
+    <button type="submit" onclick="registerKorisnika()">Registruj se</button>
+    <br><br>
+</form>
+
+<h2>LOGIN</h2>
+<form id="loginForm">
+    <label for="loginForm">EMAIL: </label><br>
+    <input type="text" id="loginEmailInput" name="emailInputForma" required><br><br>
+
+    <label for="loginForm">Password: </label><br>
+    <input type="password" id="loginPasswordInput" name="passwordInputForma" required><br>
+    <button type="submit" onclick="loginKorisnika()">Login</button>
+    <br><br>
+</form>
+
+<p id="responsePoruka"></p>
+
+<script src="loginScript.js"></script>
+
+</body>
+</html>
