@@ -1,30 +1,29 @@
 package rs.raf.raf_vodic_2.repo.aktivnosti;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import rs.raf.raf_vodic_2.repo.clanci.Clanak;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+
+@Setter
+@Getter
+@NoArgsConstructor
 public class Aktivnost {
 
     private Long id;
+
+    @NotNull
+    @NotEmpty
     private String naziv;
 
-    public Aktivnost() {}
+    ArrayList<Clanak> listaClanaka;
 
     public Aktivnost(Long id, String naziv) {
         this.id = id;
-        this.naziv = naziv;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNaziv() {
-        return naziv;
-    }
-
-    public void setNaziv(String naziv) {
         this.naziv = naziv;
     }
 

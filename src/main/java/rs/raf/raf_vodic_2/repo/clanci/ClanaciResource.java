@@ -1,7 +1,8 @@
-package rs.raf.raf_vodic_2.rest_api;
+package rs.raf.raf_vodic_2.repo.clanci;
 
 import rs.raf.raf_vodic_2.repo.clanci.Clanak;
 import rs.raf.raf_vodic_2.repo.clanci.ClanakDAO;
+import rs.raf.raf_vodic_2.rest_api.DbHelper;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,9 +11,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@Path("/a1")
+@Path("/article")
 public class ClanaciResource {
 
+    //  TODO:   On da wae
     private ClanakDAO clanakDAO = null;
 
     public ClanaciResource() {

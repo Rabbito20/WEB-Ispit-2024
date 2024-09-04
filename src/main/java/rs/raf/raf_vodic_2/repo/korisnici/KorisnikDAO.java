@@ -9,13 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class KorisnikDAO extends DbHelper2 implements KorisnikRepoInterface {
-
-//    private Connection connection;
-
-    /*public KorisnikDAO(Connection connection) {
-        this.connection = connection;
-    }*/
-
     @Override
     public Korisnik addKorisnik(Korisnik korisnik) {
         String sql =

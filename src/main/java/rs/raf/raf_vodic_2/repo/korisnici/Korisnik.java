@@ -104,13 +104,13 @@ public class Korisnik {
     @Override
     public String toString() {
         return "Korisnik{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", ime='" + ime + '\'' +
-                ", prezime='" + prezime + '\'' +
-                ", password='" + password + '\'' +
-                ", tipKorisnika=" + tipKorisnika +
-                ", aktivan=" + status +
+                "id:" + id +
+                ", email:'" + email + '\'' +
+                ", ime:'" + ime + '\'' +
+                ", prezime:'" + prezime + '\'' +
+                ", password:'" + password + '\'' +
+                ", tipKorisnika:" + tipKorisnika +
+                ", aktivan:" + status +
                 '}';
     }
 }

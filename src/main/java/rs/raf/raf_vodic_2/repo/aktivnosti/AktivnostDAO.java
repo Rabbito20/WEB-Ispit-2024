@@ -1,80 +1,177 @@
 package rs.raf.raf_vodic_2.repo.aktivnosti;
 
+import rs.raf.raf_vodic_2.rest_api.DbHelper2;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class AktivnostDAO {
+public class AktivnostDAO extends DbHelper2 implements AktivnostRepoInterface {
 
-    private Connection connection;
-
-    public AktivnostDAO(Connection connection) {
-        this.connection = connection;
-    }
-
-    public void addAktivnost(Aktivnost aktivnost) throws SQLException {
+    @Override
+    public Aktivnost addAktivnost(Aktivnost aktivnost) {
         String sql = "INSERT INTO aktivnosti (naziv) VALUES (?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+
+        try {
+            connection = this.newConnection();
+//            String[] generatedColumns = {"id"};
+
+//            stmt = connection.prepareStatement(sql, generatedColumns);
+            stmt = connection.prepareStatement(sql);
+
             stmt.setString(1, aktivnost.getNaziv());
             stmt.executeUpdate();
 
             //  Postavljamo ID nove aktivnosti
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    aktivnost.setId(generatedKeys.getLong(1));
-                }
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                aktivnost.setId(generatedKeys.getLong(1));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(stmt);
+//            this.closeResultSet(rs);
         }
+
+        return aktivnost;
     }
 
-    public void updateAktivnosti(Aktivnost aktivnost) throws SQLException {
+    @Override
+    public Aktivnost updateAktivnost(Aktivnost aktivnost) {
         String sql = "UPDATE aktivnosti SET naziv = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            connection = this.newConnection();
+            stmt = connection.prepareStatement(sql);
+
             stmt.setString(1, aktivnost.getNaziv());
             stmt.setLong(2, aktivnost.getId());
             stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(stmt);
         }
+
+        return aktivnost;
     }
 
-    public void deleteAktivnost(Long id) throws SQLException {
+    @Override
+    public void deleteAktivnost(Long id) {
         String sql = "DELETE FROM aktivnosti WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+
+        try {
+            connection = this.newConnection();
+            stmt = connection.prepareStatement(sql);
+
             stmt.setLong(1, id);
             stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(stmt);
         }
     }
 
-    public ArrayList<Aktivnost> getAllAktivnosti() throws SQLException {
-        ArrayList<Aktivnost> aktivnosti = new ArrayList<>();
+    @Override
+    public List<Aktivnost> getAllAktivnosti() {
+        ArrayList<Aktivnost> aktivnostiLista = new ArrayList<>();
         String sql = "SELECT * FROM aktivnosti";
-        try (
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)
-        ) {
+        Connection connection = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = this.newConnection();
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(sql);
+
             while (rs.next()) {
                 Aktivnost aktivnost = new Aktivnost();
                 aktivnost.setId(rs.getLong("id"));
                 aktivnost.setNaziv(rs.getString("naziv"));
-                aktivnosti.add(aktivnost);
+                aktivnostiLista.add(aktivnost);
             }
+        } catch (SQLException e) {
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(stmt);
+            this.closeResultSet(rs);
         }
 
-        return aktivnosti;
+        return aktivnostiLista;
     }
 
-    public Aktivnost findAktivnostById(Long id) throws SQLException {
+    @Override
+    public Aktivnost getAktivnostById(Long id) {
         String sql = "SELECT * FROM aktivnosti WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        Aktivnost aktivnost = null;
+        ResultSet rs = null;
+        try {
+            connection = this.newConnection();
+            stmt = connection.prepareStatement(sql);
             stmt.setLong(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Aktivnost aktivnost = new Aktivnost();
-                    aktivnost.setId(rs.getLong("id"));
-                    aktivnost.setNaziv(rs.getString("naziv"));
-                    return aktivnost;
-                }
+
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                aktivnost = new Aktivnost();
+                aktivnost.setId(rs.getLong("id"));
+                aktivnost.setNaziv(rs.getString("naziv"));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(stmt);
+            this.closeResultSet(rs);
         }
-        return null;
+
+        return aktivnost;
+    }
+
+    @Override
+    public Aktivnost getAktivnostByName(String name) {
+        String sql = "SELECT * FROM aktivnosti WHERE naziv = ?";
+        Aktivnost aktivnost = null;
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = this.newConnection();
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, name);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                aktivnost = new Aktivnost(
+                        rs.getLong("id"),
+                        rs.getString("naziv")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(stmt);
+            this.closeResultSet(rs);
+        }
+
+        return aktivnost;
     }
 
 }

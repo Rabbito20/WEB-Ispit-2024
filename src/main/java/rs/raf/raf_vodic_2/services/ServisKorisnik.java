@@ -54,9 +54,11 @@ public class ServisKorisnik {
         return false;
     }
 
-    //  Za path "/api/korsinik"     -> //TODO:  Napravi rutu kad je ulogovan "/api/korisnik/..."
+
+    //  Za path "/api/korsinik"
+    // TODO:  Napravi rutu kad je ulogovan "/api/korisnik/..." (u kontroleru)
     private boolean validRole(String path, String tipKorisnika, String method) {
-        if (path.startsWith("korisnik")) return tipKorisnika.equals("ADMIN");
+        if (path.startsWith("user")) return tipKorisnika.equals("ADMIN");
 
         return true;
     }
