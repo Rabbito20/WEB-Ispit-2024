@@ -11,6 +11,8 @@ public class DbHelper {
     private static final String USER = getUsername();
     private static final String PASSWORD = getPassword();
 
+
+
     protected static String getHost() {
         return "localhost";
     }

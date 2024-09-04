@@ -6,7 +6,7 @@
     <title>Articles</title>
 </head>
 <body>
-<a href="/artcles">Articles list</a>
+<a href="/api/hello-world-test">Articles list</a>
 <ul id="clanci"></ul>
 
 <script>
@@ -17,10 +17,9 @@
             const articlesList = document.getElementById('h1');
             data.forEach(article => {
                 const listItem = document.createElement('li');
-                // listItem.textContent = `${article.naslov} - ${article.datumObjave}`;
-
-
                 listItem.textContent = `${article.naslov} - ${article.datumObjave}`;
+
+                // listItem.textContent = `${article.naslov} - ${article.datumObjave}`;
                 articlesList.appendChild(listItem);
             });
         })

@@ -24,32 +24,36 @@ public class LoginResource {
     public LoginResource(KorisnikDAO korisnikDAO) throws SQLException {
 //        this.korisnikDAO = korisnikDAO;
         try (Connection connection = DbHelper.getConnection()) {
-            korisnikDAO = new KorisnikDAO(connection);
+//            korisnikDAO = new KorisnikDAO(connection);
         }
     }
+
 
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerUser(Korisnik korisnik) throws SQLException {
-        boolean isCreated = korisnikDAO.createKorisnik(korisnik);
+//    @Produces("application/json")
+    public Response registerUser(Korisnik korisnik) {
+        /*boolean isCreated = korisnikDAO.addKorisnik(korisnik);
 
         if (isCreated)
             return Response.status(Response.Status.CREATED).build();
         else
-            return Response.status(Response.Status.BAD_REQUEST).entity("Korisnik vec postoji!!!").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Korisnik vec postoji!!!").build();*/
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response loginUser(Korisnik korisnik) throws SQLException {
-        Korisnik dbUser = korisnikDAO.findKorisnikByEmail(korisnik.getEmail());
+    public Response loginUser(Korisnik korisnik) {
+        Korisnik dbUser = korisnikDAO.getKorisnikByEmail(korisnik.getEmail());
         if (dbUser != null && dbUser.getPassword().equals(korisnik.getPassword()))
             return Response.ok().build();
         else
             return Response.status(Response.Status.UNAUTHORIZED).entity("Probajte ponovo, kredencijali ne valjaju!!!").build();
 
     }
+
 
 }

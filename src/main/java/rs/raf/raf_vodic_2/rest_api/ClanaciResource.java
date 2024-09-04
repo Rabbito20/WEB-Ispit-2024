@@ -5,6 +5,7 @@ import rs.raf.raf_vodic_2.repo.clanci.ClanakDAO;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class ClanaciResource {
     //    clanakDAO = new ClanakDAO(connection);
 
     @GET
+    @Produces("text/plain")
     public ArrayList<Clanak> getAllclanci() throws SQLException {
         return clanakDAO.getAllClanci();
     }
