@@ -27,6 +27,7 @@ public class KorisnikDAO extends DbHelper2 implements KorisnikRepoInterface {
             stmt.setString(4, korisnik.getTipKorisnika().toString());
             stmt.setBoolean(5, korisnik.isStatus());
             stmt.setString(6, korisnik.getPassword());
+//            stmt.setString(6, Global.hashPassword(korisnik.getPassword()));
             stmt.executeUpdate();
 
             rs = stmt.getGeneratedKeys();
@@ -82,22 +83,6 @@ public class KorisnikDAO extends DbHelper2 implements KorisnikRepoInterface {
 
         return korisnik;
     }
-
-    /*
-    public Korisnik getKorisnikByEmail(String email) throws SQLException {
-        String sql = "SELECT * FROM korisnici WHERE email = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, email);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return mapResultSetToKorisnik(rs);
-                }
-            }
-        }
-
-        return null;
-    }
-    */
 
     @Override
     public Korisnik getKorisnikByEmail(String email) {
@@ -218,6 +203,7 @@ public class KorisnikDAO extends DbHelper2 implements KorisnikRepoInterface {
         korisnik.setTipKorisnika(rs.getString("tip_korisnika"));
         korisnik.setStatus(rs.getBoolean("status"));
         korisnik.setPassword(rs.getString("password"));
+//        korisnik.setPassword(Global.hashPassword(rs.getString("password")));
         return korisnik;
     }
 

@@ -1,19 +1,49 @@
 package rs.raf.raf_vodic_2.repo.clanci;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import rs.raf.raf_vodic_2.repo.aktivnosti.Aktivnost;
+import rs.raf.raf_vodic_2.repo.destinacije.Destinacija;
+import rs.raf.raf_vodic_2.repo.komentari.Komentar;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class Clanak {
 
     private Long id;
+
+    @NotNull
+    @NotEmpty
     private String naslov;
+
+    @NotNull
+    @NotEmpty
     private String tekst;
+
+    @NotNull
+    @NotEmpty
     private Long autorId;   //  ID korisnika
+
+    @NotNull
+    @NotEmpty
     private Long destinacijaId;
+
     private int brojPoseta;
-    private String datumKreiranja;
 
-    public Clanak() {
-    }
+    private LocalDate datumKreiranja;
 
-    public Clanak(Long id, String naslov, String tekst, Long autorId, Long destinacijaId, int brojPoseta, String datumKreiranja) {
+    private ArrayList<Komentar> komentari;
+    private ArrayList<Aktivnost> listaAktivnosti;
+    private Destinacija destinacija;
+
+    public Clanak(Long id, String naslov, String tekst, Long autorId, Long destinacijaId, int brojPoseta, LocalDate datumKreiranja) {
         this.id = id;
         this.naslov = naslov;
         this.tekst = tekst;
@@ -23,60 +53,15 @@ public class Clanak {
         this.datumKreiranja = datumKreiranja;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public Clanak(Long id, String naslov, String tekst, Long autorId, Long destinacijaId, int brojPoseta, LocalDate datumKreiranja, Destinacija destinacija) {
         this.id = id;
-    }
-
-    public String getNaslov() {
-        return naslov;
-    }
-
-    public void setNaslov(String naslov) {
         this.naslov = naslov;
-    }
-
-    public String getTekst() {
-        return tekst;
-    }
-
-    public void setTekst(String tekst) {
         this.tekst = tekst;
-    }
-
-    public Long getAutorId() {
-        return autorId;
-    }
-
-    public void setAutorId(Long autorId) {
         this.autorId = autorId;
-    }
-
-    public Long getDestinacijaId() {
-        return destinacijaId;
-    }
-
-    public void setDestinacijaId(Long destinacijaId) {
         this.destinacijaId = destinacijaId;
-    }
-
-    public int getBrojPoseta() {
-        return brojPoseta;
-    }
-
-    public void setBrojPoseta(int brojPoseta) {
         this.brojPoseta = brojPoseta;
-    }
-
-    public String getDatumKreiranja() {
-        return datumKreiranja;
-    }
-
-    public void setDatumKreiranja(String datumKreiranja) {
         this.datumKreiranja = datumKreiranja;
+        this.destinacija = destinacija;
     }
 
     @Override
@@ -88,7 +73,10 @@ public class Clanak {
                 ", autorId=" + autorId +
                 ", destinacijaId=" + destinacijaId +
                 ", brojPoseta=" + brojPoseta +
-                ", datumKreiranja='" + datumKreiranja + '\'' +
+                ", datumKreiranja=" + datumKreiranja +
+                ", komentari=" + komentari +
+                ", listaAktivnosti=" + listaAktivnosti +
+                ", destinacija=" + destinacija +
                 '}';
     }
 }

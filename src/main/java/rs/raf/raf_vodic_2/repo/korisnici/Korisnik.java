@@ -1,5 +1,7 @@
 package rs.raf.raf_vodic_2.repo.korisnici;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
@@ -7,6 +9,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor
 public class Korisnik {
 
     @Setter
@@ -38,9 +42,6 @@ public class Korisnik {
     @NotNull
     private boolean status;                 //  Aktivan/Neaktivan
 
-    public Korisnik() {
-    }
-
     /**
      * Kreira Korisnika (bez passworda)
      */
@@ -66,39 +67,11 @@ public class Korisnik {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getIme() {
-        return ime;
-    }
-
-    public String getPrezime() {
-        return prezime;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public TipKorisnika getTipKorisnika() {
-        return tipKorisnika;
-    }
-
     public void setTipKorisnika(String tipKorisnika) {
         if (Objects.equals(tipKorisnika.toLowerCase(), "ADMIN".toLowerCase()))
             this.tipKorisnika = TipKorisnika.ADMIN;
         else
             this.tipKorisnika = TipKorisnika.USER;
-    }
-
-    public boolean isStatus() {
-        return status;
     }
 
     @Override
