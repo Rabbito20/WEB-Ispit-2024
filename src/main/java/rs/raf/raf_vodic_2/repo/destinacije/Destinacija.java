@@ -1,12 +1,28 @@
 package rs.raf.raf_vodic_2.repo.destinacije;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import rs.raf.raf_vodic_2.repo.clanci.Clanak;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
+@Setter
+@Getter
+@NoArgsConstructor
 public class Destinacija {
     private Long id;
+    @NotNull
+    @NotEmpty
     private String naziv;
+
+    @NotNull
+    @NotEmpty
     private String opis;
 
-    public Destinacija() {
-    }
+    private List<Clanak> clanakList;
 
     public Destinacija(Long id, String naziv, String opis) {
         this.id = id;
@@ -14,28 +30,11 @@ public class Destinacija {
         this.opis = opis;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public Destinacija(Long id, String naziv, String opis, List<Clanak> clanakList) {
         this.id = id;
-    }
-
-    public String getNaziv() {
-        return naziv;
-    }
-
-    public void setNaziv(String naziv) {
         this.naziv = naziv;
-    }
-
-    public String getOpis() {
-        return opis;
-    }
-
-    public void setOpis(String opis) {
         this.opis = opis;
+        this.clanakList = clanakList;
     }
 
     @Override

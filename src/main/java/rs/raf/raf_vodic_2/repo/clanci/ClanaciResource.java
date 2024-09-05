@@ -1,7 +1,5 @@
 package rs.raf.raf_vodic_2.repo.clanci;
 
-import rs.raf.raf_vodic_2.repo.clanci.Clanak;
-import rs.raf.raf_vodic_2.repo.clanci.ClanakDAO;
 import rs.raf.raf_vodic_2.rest_api.DbHelper;
 
 import javax.ws.rs.GET;
@@ -15,6 +13,9 @@ import java.util.ArrayList;
 public class ClanaciResource {
 
     //  TODO:   On da wae
+
+    //  TODO:   Vrlo vrv je za brisanje!
+    //  TODO:   CLASS MARKED FOR DELETION!!!
     private ClanakDAO clanakDAO = null;
 
     public ClanaciResource() {

@@ -15,6 +15,9 @@ import java.sql.SQLException;
 @Path("/entrance")
 public class LoginResource {
 
+    //  TODO:   DELETE THIS CLASS
+    //  TODO:   CLASS MARKED FOR DELETION!!!
+
     //  Ovo injektuje neki servis (registracija/login)
 
     private KorisnikDAO korisnikDAO = null;
