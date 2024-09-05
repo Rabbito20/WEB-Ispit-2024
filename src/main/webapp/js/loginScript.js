@@ -15,7 +15,7 @@ function registerKorisnika() {
         password: password
     };
 
-    fetch('api/korisnici/register', {
+    fetch('api/user/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ function loginKorisnika() {
         password: password
     };
 
-    fetch('api/korisnici/login', {
+    fetch('api/user/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

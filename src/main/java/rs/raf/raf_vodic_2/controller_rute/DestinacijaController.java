@@ -1,4 +1,4 @@
-package rs.raf.raf_vodic_2.controller;
+package rs.raf.raf_vodic_2.controller_rute;
 
 import rs.raf.raf_vodic_2.repo.destinacije.Destinacija;
 import rs.raf.raf_vodic_2.services.ServisDestinacije;
