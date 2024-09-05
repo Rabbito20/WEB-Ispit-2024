@@ -137,6 +137,51 @@ public class ClanakDAO extends DbHelper2 implements ClanakRepoInterface {
     }
 
     @Override
+    public ArrayList<Clanak> getAllClanciUnordered() {
+        ArrayList<Clanak> listaClanaka = new ArrayList<>();
+//        String sql = "SELECT * FROM clanci";    //  Preventivno, mada moze i null da stoji
+        String sql = "SELECT * FROM clanci JOIN destinacija ON destinacija_id ORDER BY vreme_kreiranja DESC LIMIT ?";
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = this.newConnection();
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, 10);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Clanak clanak = new Clanak();
+                clanak.setId(rs.getLong("id"));
+                clanak.setNaslov(rs.getString("naslov"));
+                clanak.setTekst(rs.getString("tekst"));
+                clanak.setDatumKreiranja(rs.getDate("datum_kreiranja").toLocalDate());
+                clanak.setBrojPoseta(rs.getInt("br_poseta"));
+                clanak.setAutorId(rs.getLong("autor_id"));
+                clanak.setDestinacijaId(rs.getLong("destinacija_id"));
+                clanak.setDestinacija(
+                        new Destinacija(
+                                rs.getLong("destinacije.id"),
+                                rs.getString("naziv"),
+                                rs.getString("opis")
+                        )
+                );
+                listaClanaka.add(clanak);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(stmt);
+            this.closeResultSet(rs);
+        }
+
+        return listaClanaka;
+    }
+
+    @Override
     public ArrayList<Clanak> getAllClanci(String numOfElmentsToReturn, String najcitaniji) {
         ArrayList<Clanak> listaClanaka = new ArrayList<>();
 //        String sql = "SELECT * FROM clanci";    //  Preventivno, mada moze i null da stoji

@@ -29,11 +29,14 @@ public class ServisClanak {
         return clanakRepo.getAllClanci(numOfElemTOReturn, najcitanije);
     }
 
+    public ArrayList<Clanak> getAllClanci() {
+        return clanakRepo.getAllClanciUnordered();
+    }
+
     public Clanak getClanakById(Long id) {
         Clanak clanak = clanakRepo.getClanakById(id);
         clanak.setListaAktivnosti(clanakAktivnostRepo.getAllAktivnostiForClanakId(id));
-
-//        TODO: izdvojiti komentare iz clanka.
+        clanak.setKomentari(komentarRepo.getAllKomentariForClanakById(id));
 
         return clanak;
     }
@@ -63,7 +66,7 @@ public class ServisClanak {
     public void incrementBrPoseta(Long id) {
         clanakRepo.incrementBrPoseta(id);
     }
-    
+
     public Komentar addKomentar(Komentar komentar) {
         return komentarRepo.addKomentar(komentar);
     }

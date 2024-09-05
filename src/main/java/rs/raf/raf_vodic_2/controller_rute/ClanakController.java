@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-@Path("/clanak")
+@Path("/articles")
 public class ClanakController {
 
     @Inject
@@ -23,6 +23,13 @@ public class ClanakController {
     public Response getAllClanci(@Context UriInfo uriInfo) {
         return Response.ok(servisClanak.getAllClanci(uriInfo)).build();
     }
+
+    /*@GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<Clanak> getAllClanci() {
+//        return Response.ok(servisClanak.getAllClanci()).build();
+        return servisClanak.getAllClanci();
+    }*/
 
     @GET
     @Path("/{id}")

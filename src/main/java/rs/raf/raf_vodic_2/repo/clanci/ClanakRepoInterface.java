@@ -7,6 +7,8 @@ public interface ClanakRepoInterface {
     //  Parametri su String, jer moze biti prazno polje (null), pa je ovo bolje resenje
     ArrayList<Clanak> getAllClanci(String numOfElmentsToReturn, String najcitaniji);
 
+    ArrayList<Clanak> getAllClanciUnordered();
+
     Clanak getClanakById(Long id);
 
     Clanak addClanak(Clanak clanak);

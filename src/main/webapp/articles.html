@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Članci</title>
+    <script>
+        // Funkcija za dobijanje svih članaka
+        function fetchClanci() {
+            fetch('http://localhost:8080/api/clanak/1')
+                .then(response => response.json())
+                .then(data => {
+                    const clanciDiv = document.getElementById('clanci');
+                    clanciDiv.innerHTML = ''; // Očisti prethodne članke
+                    data.forEach(clanak => {
+                        const clanakDiv = document.createElement('div');
+                        clanakDiv.innerHTML = `
+                            <h2>${clanak.naslov}</h2>
+                            <p>${clanak.tekst}</p>
+                            <p>Datum objave: ${clanak.vreme_kreiranja}</p>
+                            <p>Autor: ${clanak.autor_id}</p>
+                            <hr>
+                        `;
+                        clanciDiv.appendChild(clanakDiv);
+                    });
+                })
+                .catch(error => console.error('Greška:', error));
+        }
+
+        // Pozovi funkciju kada se stranica učita
+        window.onload = function () {
+            fetchClanci();
+        };
+    </script>
+</head>
+<body>
+<h1>Članci</h1>
+<div id="clanci">
+    <!-- Ovde će se prikazivati članci -->
+</div>
+</body>
+</html>
