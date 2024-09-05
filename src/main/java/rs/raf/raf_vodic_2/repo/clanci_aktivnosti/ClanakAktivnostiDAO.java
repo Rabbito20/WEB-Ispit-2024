@@ -1,72 +1,95 @@
 package rs.raf.raf_vodic_2.repo.clanci_aktivnosti;
 
+import rs.raf.raf_vodic_2.repo.aktivnosti.Aktivnost;
+import rs.raf.raf_vodic_2.rest_api.DbHelper2;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ClanakAktivnostiDAO {
-    private Connection connection;
+public class ClanakAktivnostiDAO extends DbHelper2 implements ClanakAktivnostiRepoInterface {
 
-    public ClanakAktivnostiDAO(Connection connection) {
-        this.connection = connection;
-    }
-
-    public void addClanakAktivnosti(ClanakAktivnosti clanakAktivnosti) throws SQLException {
-        String sql = "INSERT INTO clanak_aktivnosti (clanak_id, aktivnost_id) VALUES (?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, clanakAktivnosti.getClanakId());
-            stmt.setLong(2, clanakAktivnosti.getAktivnostId());
-            stmt.executeUpdate();
-        }
-    }
-
-    public void deleteClanakAktivnosti(Long clankId, Long aktivnostId) throws SQLException {
-        String sql = "DELETE FROM clanak_aktivnosti WHERE clanak_id = ? AND aktivnost_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, clankId);
-            stmt.setLong(2, aktivnostId);
-            stmt.executeUpdate();
-        }
-    }
-
-    //  Vraca listu aktivnosti clanka
-    public ArrayList<ClanakAktivnosti> getAktivnostiByClanakId(Long clanakId) throws SQLException {
+    @Override
+    public ArrayList<Aktivnost> getAllAktivnostiForClanakId(Long clanakId) {
+//        int id = Integer.parseInt(clanakId.toString());
+        ArrayList<Aktivnost> listaAktivnosti = new ArrayList<>();
         String sql = "SELECT * FROM clanak_aktivnosti WHERE clanak_id = ?";
-        ArrayList<ClanakAktivnosti> aktivnostiLista = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = this.newConnection();
+            stmt = connection.prepareStatement(sql);
             stmt.setLong(1, clanakId);
-            try (ResultSet rs = stmt.executeQuery()) {
+            rs = stmt.executeQuery();
+
+            List<Long> aktivnostiIds = new ArrayList<>();
+            StringBuilder sql2 = new StringBuilder();
+
+            while (rs.next()) {
+                Long id = rs.getLong("aktivnost_id");
+                aktivnostiIds.add(id);
+
+                sql2.append("?, ");     //  primer "id = (?, ?, ?, ?, ...)"
+            }
+
+            //  Uzimamo sve o aktivnostima to znamo na osnovu ID-a
+            if (!aktivnostiIds.isEmpty()) {
+                sql2 = new StringBuilder(sql2.substring(0, sql2.length() - 2)); //  Zavrsava se sa "?, ", pa moramo da otklonimo to
+
+                stmt = connection.prepareStatement("SELECT * FROM aktivnosti WHERE id IN (" + sql2 + ")");
+                for (int i = 0; i < aktivnostiIds.size(); i++) {
+                    stmt.setLong(i + 1, aktivnostiIds.get(i));
+                }
+
+                rs = stmt.executeQuery();
+
                 while (rs.next()) {
-                    ClanakAktivnosti aktivnost = new ClanakAktivnosti();
-                    aktivnost.setClanakId(rs.getLong("clanak_id"));
-                    aktivnost.setAktivnostId(rs.getLong("aktivnost_id"));
-                    aktivnostiLista.add(aktivnost);
+                    listaAktivnosti.add(new Aktivnost(
+                            rs.getLong("id"),
+                            rs.getString("naziv")
+                    ));
                 }
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(stmt);
+            this.closeResultSet(rs);
         }
-        return aktivnostiLista;
+
+        return listaAktivnosti;
     }
 
-    //  Ovo mozda nije dobro ili ce morati da se prepravi??? (Sigurno, tako da // TODO :/)
-    //  Svi clanci sa zadatom aktivnoscu
-    public ArrayList<ClanakAktivnosti> getClanciByAktivnostId(Long aktivnostId) throws SQLException {
-        String sql = "SELECT * FROM clanak_aktivnosti WHERE aktivnosti_id = ?";
-        ArrayList<ClanakAktivnosti> clanciLista = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setLong(1, aktivnostId);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    ClanakAktivnosti clanak = new ClanakAktivnosti();
-                    clanak.setClanakId(rs.getLong("clanak_id"));
-                    clanak.setAktivnostId(rs.getLong("aktivnost_id"));
-                    clanciLista.add(clanak);
-                }
+    @Override
+    public void addAllConnections(Long clanakId, List<Long> listaIdAktivnosti) {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        String sql = "INSERT INTO clanak_aktivnosti (clanak_id, aktivnost_id) VALUES (?, ?)";
+
+        try {
+            connection = this.newConnection();
+            stmt = connection.prepareStatement(sql);
+            String[] generatedColumns = {"id"};
+            for (Long aktivnostId : listaIdAktivnosti) {
+                stmt = connection.prepareStatement(sql, generatedColumns);
+                stmt.setLong(1, clanakId);
+                stmt.setLong(1, aktivnostId);
+                stmt.executeQuery();
             }
-        }
-        return clanciLista;
-    }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.closeConnection(connection);
+            this.closeStatement(stmt);
+        }
+    }
 }
 

@@ -1,6 +1,7 @@
 package rs.raf.raf_vodic_2.controller;
 
 import rs.raf.raf_vodic_2.repo.clanci.Clanak;
+import rs.raf.raf_vodic_2.repo.komentari.Komentar;
 import rs.raf.raf_vodic_2.services.ServisClanak;
 
 import javax.inject.Inject;
@@ -11,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-@Path("/article")
+@Path("/clanak")
 public class ClanakController {
 
     @Inject
@@ -41,7 +42,7 @@ public class ClanakController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public void incrementBrPoseta(@PathParam("id") Long id) {
-        servisClanak.getClanakById(id);
+        servisClanak.incrementBrPoseta(id);
     }
 
     @POST
@@ -56,6 +57,11 @@ public class ClanakController {
         return servisClanak.updateClanak(clanak);
     }
 
-    //  TODO: addKomentar...
+    @POST
+    @Path("/komentar")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Komentar addKomentar() {
+        return servisClanak.addKomentar(addKomentar());
+    }
 
 }

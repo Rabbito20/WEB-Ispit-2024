@@ -1,61 +1,36 @@
 package rs.raf.raf_vodic_2.repo.komentari;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class Komentar {
 
     private Long id;
+
+    @NotNull
+    @NotEmpty
     private Long autorId;
+
+    @NotNull
+    @NotEmpty
     private String tekst;
-    private String datumKreiranja;
+
+    private LocalDate datumKreiranja;
     private Long clanakId;
 
-    public Komentar() {
-    }
-
-    public Komentar(Long id, Long autorId, String tekst, String datumKreiranja, Long clanakId) {
+    public Komentar(Long id, Long autorId, String tekst, LocalDate datumKreiranja, Long clanakId) {
         this.id = id;
         this.autorId = autorId;
         this.tekst = tekst;
         this.datumKreiranja = datumKreiranja;
-        this.clanakId = clanakId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getAutorId() {
-        return autorId;
-    }
-
-    public void setAutorId(Long autorId) {
-        this.autorId = autorId;
-    }
-
-    public String getTekst() {
-        return tekst;
-    }
-
-    public void setTekst(String tekst) {
-        this.tekst = tekst;
-    }
-
-    public String getDatumKreiranja() {
-        return datumKreiranja;
-    }
-
-    public void setDatumKreiranja(String datumKreiranja) {
-        this.datumKreiranja = datumKreiranja;
-    }
-
-    public Long getClanakId() {
-        return clanakId;
-    }
-
-    public void setClanakId(Long clanakId) {
         this.clanakId = clanakId;
     }
 

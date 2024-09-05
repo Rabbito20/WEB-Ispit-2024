@@ -7,8 +7,12 @@ import rs.raf.raf_vodic_2.repo.aktivnosti.AktivnostDAO;
 import rs.raf.raf_vodic_2.repo.aktivnosti.AktivnostRepoInterface;
 import rs.raf.raf_vodic_2.repo.clanci.ClanakDAO;
 import rs.raf.raf_vodic_2.repo.clanci.ClanakRepoInterface;
+import rs.raf.raf_vodic_2.repo.clanci_aktivnosti.ClanakAktivnostiDAO;
+import rs.raf.raf_vodic_2.repo.clanci_aktivnosti.ClanakAktivnostiRepoInterface;
 import rs.raf.raf_vodic_2.repo.destinacije.DestinacijaDAO;
 import rs.raf.raf_vodic_2.repo.destinacije.DestinacijaRepoInterfejs;
+import rs.raf.raf_vodic_2.repo.komentari.KomentarDAO;
+import rs.raf.raf_vodic_2.repo.komentari.KomentarRepoInterface;
 import rs.raf.raf_vodic_2.repo.korisnici.KorisnikDAO;
 import rs.raf.raf_vodic_2.repo.korisnici.KorisnikRepoInterface;
 import rs.raf.raf_vodic_2.services.ServisAktivnost;
@@ -33,20 +37,18 @@ public class AppConfigMain extends ResourceConfig {
                 this.bind(AktivnostDAO.class).to(AktivnostRepoInterface.class).in(Singleton.class);
                 this.bind(DestinacijaDAO.class).to(DestinacijaRepoInterfejs.class).in(Singleton.class);
                 this.bind(ClanakDAO.class).to(ClanakRepoInterface.class).in(Singleton.class);
+                this.bind(ClanakAktivnostiDAO.class).to(ClanakAktivnostiRepoInterface.class).in(Singleton.class);
+                this.bind(KomentarDAO.class).to(KomentarRepoInterface.class).in(Singleton.class);
 
                 this.bindAsContract(ServisKorisnik.class);
                 this.bindAsContract(ServisAktivnost.class);
                 this.bindAsContract(ServisDestinacije.class);
                 this.bindAsContract(ServisClanak.class);
-
-                //todo: Clanak sa aktivnostima
             }
         };
-
         register(binder);
 
         //  Ucitavamo resurse
         packages("rs.raf.raf_vodic_2");
     }
-
 }

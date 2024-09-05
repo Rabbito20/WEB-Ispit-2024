@@ -1,22 +1,27 @@
 package rs.raf.raf_vodic_2.services;
 
+import rs.raf.raf_vodic_2.repo.aktivnosti.Aktivnost;
 import rs.raf.raf_vodic_2.repo.clanci.Clanak;
 import rs.raf.raf_vodic_2.repo.clanci.ClanakRepoInterface;
+import rs.raf.raf_vodic_2.repo.clanci_aktivnosti.ClanakAktivnostiRepoInterface;
+import rs.raf.raf_vodic_2.repo.komentari.Komentar;
+import rs.raf.raf_vodic_2.repo.komentari.KomentarRepoInterface;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServisClanak {
 
     @Inject
     private ClanakRepoInterface clanakRepo;
 
-//    @Inject
-//    private ClanakAktivnostRepoInterface clanakAktivnostRepo; //  TODO
+    @Inject
+    private ClanakAktivnostiRepoInterface clanakAktivnostRepo;
 
-//    @Inject
-//    private KomentarRepoInterface komentarRepo;               //  TODO
+    @Inject
+    private KomentarRepoInterface komentarRepo;
 
     public ArrayList<Clanak> getAllClanci(UriInfo uriInfo) {
         String numOfElemTOReturn = uriInfo.getQueryParameters().getFirst("top");
@@ -26,7 +31,8 @@ public class ServisClanak {
 
     public Clanak getClanakById(Long id) {
         Clanak clanak = clanakRepo.getClanakById(id);
-//        TODO: izdvojiti aktivnosti iz clanka.
+        clanak.setListaAktivnosti(clanakAktivnostRepo.getAllAktivnostiForClanakId(id));
+
 //        TODO: izdvojiti komentare iz clanka.
 
         return clanak;
@@ -35,7 +41,13 @@ public class ServisClanak {
     public Clanak addClanak(Clanak clanak) {
         clanakRepo.addClanak(clanak);
 
-        //  TODO:   Dodaj aktivnosti iz clanka.
+        //  Dodajemo aktivnosti iz clanka.
+        if (clanak.getListaAktivnosti() != null) {
+            List<Long> idList = new ArrayList<>();
+            for (Aktivnost aktivnost : clanak.getListaAktivnosti())
+                idList.add(aktivnost.getId());
+            clanakAktivnostRepo.addAllConnections(clanak.getId(), idList);
+        }
 
         return clanak;
     }
@@ -51,7 +63,9 @@ public class ServisClanak {
     public void incrementBrPoseta(Long id) {
         clanakRepo.incrementBrPoseta(id);
     }
-
-    //  TODO:   ADD Komentar.
+    
+    public Komentar addKomentar(Komentar komentar) {
+        return komentarRepo.addKomentar(komentar);
+    }
 
 }
